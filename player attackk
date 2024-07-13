@@ -1,0 +1,37 @@
+using UnityEngine;
+
+public class PlayerAttack : MonoBehaviour
+{
+    public float attackRange = 0.5f; // Saldırı menzili
+    public LayerMask enemyLayers; // Düşman katmanı
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Attack();
+        }
+    }
+
+    void Attack()
+    {
+        // Düşmanları tespit etmek için bir circle overlap kullanılır
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, attackRange, enemyLayers);
+
+        // Her düşman için işlem yap
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            Debug.Log("Attack hit: " + enemy.name);
+
+
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Gizmo çizimi ile saldırı menzilini görselleştirme
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+}
